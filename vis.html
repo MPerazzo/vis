@@ -1,0 +1,74 @@
+<!-- console.log(JSON.stringify(d)); -->
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Dota 2 Stats</title>
+		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/dc/3.0.2/dc.min.css">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<link rel="stylesheet" href="styles.css">
+	</head>
+	<body>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.7.0/d3.js" charset="utf-8"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/crossfilter/1.3.12/crossfilter.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/dc/3.0.12/dc.min.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<div class="container">
+			<header style="text-align: center">
+		    		<h1>Dota 2 Stats</h1>
+		    		<h4 style="font-size: 22px">From my <a href="https://www.dotabuff.com/players/111409640">player profile</a></h4>
+	    	</header>
+	    	<!-- Records selected + reset --> 
+	    	<div class="row">
+	    		<div class="col-md-6 col-md-offset-3 dc-data-count dc-chart" style="text-align: center; margin-top: 0px; margin-bottom: 10px; 
+	    		font-size: 18px">
+	    			Filtered <span class="filter-count"></span> records out of
+	    			<span class="total-count"></span>
+	    			(<span id="percentage-searchs" class="dc-chart"></span>)
+	    			<a href="javascript:dc.filterAll(); dc.renderAll();">Reset filters</a>
+	    		</div>	
+	    	</div>
+	    	<div class="col-md-4 col-md-offset-5 btn-group" style="position: relative; right: 55px">
+				<button class="ps-btn btn btn-primary" id="timeSelector">Time metrics</button>
+				<button class="ps-btn btn btn-primary" id="skillSelector">Skill metrics</button>
+			</div>
+	    	<!-- All charts --> 
+	    	<div class="row" id="timeMetrics">
+	 	    	<div class="col-md-6" style="margin-top: 25px">
+	    			<h4 style="text-align: center;"><strong>Games by year</strong></h4>
+	    			<div id="yearChart" class="dc-chart">
+	    			</div>
+	    		</div>
+	    		<div class="col-md-6" style="margin-top: 25px">
+	    			<h4 style="text-align: center;"><strong>Games by month</strong></h4>
+	    			<div id="monthChart" class="dc-chart">
+	    			</div>	
+	    		</div>
+	    		<div class="col-md-6" style="margin-top: 25px">
+	    			<h4 style="text-align: center;"><strong>Games by weekday</strong></h4>
+	    			<div id="dayChart" class="dc-chart">
+	    			</div>
+	    		</div>
+	    		<div class="col-md-6" style="margin-top: 25px">
+	    			<h4 style="text-align: center;"><strong>Games by hour</strong></h4>
+	    			<div id="hourChart" class="dc-chart">
+	    			</div>
+	    		</div>
+	    	</div>
+	    	<div class="row" id="skillMetrics" style="display: none">
+		    	<div class="col-md-12" style="margin-top: 25px">
+		    		<h4 style="text-align: center;"><strong>KDA ratio by day</strong></h4>
+		    			<div id="kdaChart" class="dc-chart col-md-12 col-md-offset-1">
+		    			</div>
+	    		</div>
+	    		<div class="col-md-6 col-md-offset-4">
+	    			<div id="winChart" class="dc-chart" style="position: relative; left: 25px">
+		    			<h4 style="text-align: center; position: relative; top: 30px"><strong>Win rate</strong></h4>
+	    			</div>
+	    		</div>
+    		</div>
+		</div>
+		<script src="plot.js"></script>
+	</body>
+</html>

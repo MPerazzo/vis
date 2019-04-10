@@ -1,0 +1,39 @@
+.ps-btn {
+	font-size: 20px !important;
+	background-color: #39C6A6 !important;
+	color: #fff !important;
+	border-color: #f2f2f2 !important;
+}
+
+.ps-btn:hover {
+	background-color: #33bb9c !important;
+	color: #fff !important;
+	border-color: #33bb9c !important;
+	transition: all .2s ease-in;
+}
+
+.ps-btn:focus, ps-btn-red:focus {
+	color: #fff !important;
+}
+
+.dc-chart .pie-slice {
+  font-size: 20px;
+}
+
+.dc-chart g.row text {
+	font-size: 20px	;
+}
+
+.dc-chart .axis text {
+    font: 15px sans-serif;
+}
+
+#hourChart svg {
+	padding-left: 5px;
+}
+
+.dc-data-count .filter-count, .dc-data-count .total-count {
+    color: #000000;
+    font-weight: 200;
+    font-style: italic;
+}
