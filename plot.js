@@ -233,10 +233,11 @@
 					.brushOn(true)
 					.renderHorizontalGridLines(true)
 					.x(d3.scaleLinear().domain([0, 23]))	
-					.group(hourGroup);
+					.group(hourGroup)
+					.ordinalColors(['#1f77b4']);
 				
 				kdaChart
-					.width(900)					
+					.width(850)					
 					.dimension(kdaDim)
 					.elasticX(true)
 					.elasticY(true)
