@@ -34,15 +34,6 @@
     font: 17px sans-serif;
 }
 
-#hourChart svg {
-	padding-left: 17px;
-}
-
-#heatMapChart svg {
-	padding-left: 17px;
-	padding-right: 17px;
-}
-
 .dc-chart .heatmap g.cols.axis text {
     position: relative;
     top: 10px;

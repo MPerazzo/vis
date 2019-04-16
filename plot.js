@@ -287,6 +287,8 @@
 					.x(d3.scaleLinear().domain([0, 23]))	
 					.group(hourGroup)
 					.ordinalColors(['#4E8397']);
+
+					hourChart.margins({ top: 0, left: 40, right: 40, bottom: 30 })
 				
 				kdaChart
 					.width(850)					
@@ -365,6 +367,7 @@
 				    	}
 				  });
 
+				heatMapChart.margins({ top: 0, left: 40, right: 40, bottom: 50 }) 
 
 				dc.renderAll();
 			});
