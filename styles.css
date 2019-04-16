@@ -1,3 +1,7 @@
+.rs-btn {
+	position: fixed; bottom: 450px; right: 40px;
+}
+
 .ps-btn {
 	font-size: 20px !important;
 	background-color: #39C6A6 !important;
@@ -10,6 +14,7 @@
 	color: #fff !important;
 	border-color: #33bb9c !important;
 	transition: all .2s ease-in;
+	cursor: pointer;
 }
 
 .ps-btn:focus, ps-btn-red:focus {
@@ -17,11 +22,12 @@
 }
 
 .dc-chart .pie-slice {
-  font-size: 20px;
+	font-size: 20px;
 }
 
 .dc-chart g.row text {
 	font-size: 20px	;
+	fill: #000;
 }
 
 .dc-chart .axis text {

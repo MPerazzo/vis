@@ -3,7 +3,7 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title>Dota 2 Stats</title>
+		<title>Dota 2 Metrics</title>
 		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/dc/3.0.2/dc.min.css">
 		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" rel="stylesheet" />
 		<link rel="stylesheet" href="styles.css">
@@ -12,60 +12,73 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.7.0/d3.js" charset="utf-8"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/crossfilter/1.3.12/crossfilter.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/dc/3.0.12/dc.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 		<div class="container">
+			<button class="rs-btn ps-btn btn btn-primary" style="font-size: 18px !important; display: none;" id="resetAll">Reset filters</button>
 			<header style="text-align: center">
-		    		<h1>Dota 2 Stats</h1>
+		    		<h1>Dota 2 metrics</h1>
 		    		<h4 style="font-size: 22px; font-weight: 400;">From my <a href="https://www.dotabuff.com/players/111409640">player profile</a></h4>
 	    	</header>
-	    	<!-- Records selected + reset --> 
-	    	<div class="row justify-content-md-center">
-	    		<div class="dc-data-count dc-chart" style="text-align: center; margin: 0 auto; font-size: 18px">
-	    			Filtered <span class="filter-count" style="font-weight: 500;"></span> records out of
-	    			<span class="total-count" style="font-weight: 500;"></span>
-	    			(<span id="percentage-searchs" class="dc-chart"></span>)
-	    			<a href="javascript:dc.filterAll(); dc.renderAll();">Reset filters</a>
-	    		</div>	
-	    	</div>
 	    	<div class="row justify-content-md-center" style="margin-top: 10px">
 		    	<div class="btn-group">
+					<button class="ps-btn btn btn-primary" id="introSelector">Introduction</button>
 					<button class="ps-btn btn btn-primary" id="timeSelector">Time metrics</button>
 					<button class="ps-btn btn btn-primary" id="skillSelector">Skill metrics</button>
 				</div>
 			</div>
-	    	<!-- All charts --> 
-	    	<div class="row" id="timeMetrics">
-	 	    	<div class="col-md-6" style="margin-top: 25px">
+			<div class="row justify-content-md-center" id="introduction" style="margin-top: 20px; font-size: 20px; text-align: justify;">
+				<p>
+				In this visualization I will show you some metrics from the matches I played in a game called <a href="http://www.dota2.com">Dota 2</a> from 22/10/2012 to 04/04/2019. This information was acquired by the <a href="http://docs.opendota.com">OpenDota API</a> and displayed using <a href="https://d3js.org/">d3.js</a>, <a href="https://dc-js.github.io/dc.js/">dc.js</a> and <a href="https://square.github.io/crossfilter/">crossfilter</a> in an interactive way. 
+				</p>
+				<p>There are two other sections presenting graphics; time metrics that show games played by year, month, week, hour and skill metrics, where you can see KDA ratio by day and win rate. Each filter of the interactive graphs can be reseted by the corresponding button and there is a fixed button that resets all filters.
+				</p>
+				<div style="margin-top: 30px; text-align: center;">
+					<img src="images/dota2.png" style="width: 160px; height: 160px">
+					<img src="images/d3.png">
+					<img src="images/dc.png">
+					<img src="images/crossfilter.png">
+				</div>
+			</div>
+	    	<!-- Time charts --> 
+	    	<div class="row justify-content-md-center" id="timeMetrics" style="display: none">
+	 	    	<div class="col-md-6" style="margin-top: 25px; text-align: center;">
 	    			<h4 style="text-align: center;">Games by year</h4>
+					<button class="ps-btn btn btn-primary" style="font-size: 16px !important;" id="resetYear">Reset filter</button>
 	    			<div id="yearChart" class="dc-chart">
 	    			</div>
 	    		</div>
-	    		<div class="col-md-6" style="margin-top: 25px">
+	    		<div class="col-md-6" style="margin-top: 25px; text-align: center;">
 	    			<h4 style="text-align: center;">Games by month</h4>
+					<button class="ps-btn btn btn-primary" style="font-size: 16px !important;" id="resetMonth">Reset filter</button>
 	    			<div id="monthChart" class="dc-chart">
 	    			</div>	
 	    		</div>
-	    		<div class="col-md-6" style="margin-top: 25px">
+	    		<div class="col-md-6" style="margin-top: 25px; text-align: center;">
 	    			<h4 style="text-align: center;">Games by weekday</h4>
+					<button class="ps-btn btn btn-primary" style="font-size: 16px !important;" id="resetDay">Reset filter</button>
 	    			<div id="dayChart" class="dc-chart">
 	    			</div>
 	    		</div>
-	    		<div class="col-md-6" style="margin-top: 25px">
+	    		<div class="col-md-6" style="margin-top: 25px; text-align: center;">
 	    			<h4 style="text-align: center;">Games by hour</h4>
+					<button class="ps-btn btn btn-primary" style="font-size: 16px !important;" id="resetHour">Reset filter</button>
 	    			<div id="hourChart" class="dc-chart">
 	    			</div>
 	    		</div>
 	    	</div>
+	    	<!-- Skill charts --> 
 	    	<div class="row justify-content-md-center" id="skillMetrics" style="display: none">
 		    	<div style="margin-top: 25px">
 		    		<h4 style="text-align: center;">KDA ratio by day</h4>
-		    			<div id="kdaChart" class="dc-chart col-md-12 col-md-offset-1">
+		    			<div id="kdaChart" class="dc-chart">
 		    			</div>
 	    		</div>
-	    		<div>
+	    		<div style="text-align: center;">
+					<button class="ps-btn btn btn-primary" style="font-size: 16px !important; position: relative; top: 70px;" id="resetWin">Reset filter</button>
+	    			<h4>Win rate</h4>
 	    			<div id="winChart" class="dc-chart">
-		    			<h4 style="text-align: center; position: relative; top: 30px">Win rate</h4>
 	    			</div>
 	    		</div>
     		</div>

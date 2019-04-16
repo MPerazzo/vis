@@ -1,4 +1,3 @@
-
 			Date.prototype.withoutTime = function () {
 			    var d = new Date(this);
 			    d.setHours(0, 0, 0, 0);
@@ -9,7 +8,11 @@
 
 				$('#skillMetrics').hide();
 
+				$('#introduction').hide();
+
 				$('#timeMetrics').show();
+
+				$('#resetAll').show();
 
 			});
 
@@ -17,21 +20,64 @@
 
 				$('#timeMetrics').hide();
 
+				$('#introduction').hide();
+
 				$('#skillMetrics').show();
+
+				$('#resetAll').show();
 
 			});
 
-			$('#timeSelector').focus()
+			$('#introSelector').click(function () {
+
+				$('#timeMetrics').hide();
+
+				$('#skillMetrics').hide();
+
+				$('#resetAll').hide();
+
+				$('#introduction').show();
+
+			});
+
+			$('#introSelector').focus();
+
+			$('#resetYear').click(function () {
+					yearChart.filter(null);
+					dc.renderAll();
+			});	
+
+			$('#resetMonth').click(function () {
+					monthChart.filter(null);
+					dc.renderAll();
+			});	
+
+			$('#resetDay').click(function () {
+					dayChart.filter(null);
+					dc.renderAll();
+			});	
+
+			$('#resetHour').click(function () {
+					hourChart.filter(null);
+					dc.renderAll();
+			});	
+
+			$('#resetWin').click(function () {
+					winChart.filter(null);
+					dc.renderAll();
+			});
+
+			$('#resetAll').click(function () {
+					dc.filterAll(); 
+					dc.renderAll();
+			});	
 
 			var winChart = dc.pieChart('#winChart'),
 				yearChart = dc.rowChart("#yearChart"),
 				monthChart = dc.rowChart("#monthChart"),
 				dayChart = dc.rowChart("#dayChart"),
 				hourChart = dc.barChart("#hourChart"),
-				kdaChart = dc.lineChart("#kdaChart"),
-				visCount = dc.dataCount(".dc-data-count");				
-
-			var percentage_searchs_number = dc.numberDisplay("#percentage-searchs");
+				kdaChart = dc.lineChart("#kdaChart");
 
 			var month = [ "Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dic"];
 			var day = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
@@ -56,7 +102,6 @@
 				var dayDim = ndx.dimension(function(d){ return day[d.start_time.getDay()];});
 				var hourDim = ndx.dimension(function(d){ return d.start_time.getHours();});
 				var kdaDim = ndx.dimension(function(d){ return d.start_time.withoutTime();});
-
 
 				var winGroup = winDim.group();				
 				var yearGroup = yearDim.group();
@@ -112,8 +157,7 @@
 					.dimension(monthDim)
 					.elasticX(true)
 					.group(monthGroup)
-					.ordinalColors(['#e41a1c','#1f77b4','#2ca02c','#984ea3','#ff7f0e','#e377c2','#a65628', '#17becf', '#7f7f7f', '#e7298a', '#1b9e77', 
-						'#6a3d9a'])
+					.ordinalColors(['#9B89B3'])
 					.ordering(function(d){
 						switch(d.key){
 							case 'Jan': 
@@ -161,7 +205,7 @@
 					.dimension(dayDim)
 					.elasticX(true)
 					.group(dayGroup)
-					.ordinalColors(['#e41a1c','#1f77b4','#2ca02c','#984ea3','#ff7f0e','#e377c2','#a65628'])
+					.ordinalColors(['#ff941c'])
 					.ordering(function(d) {					
     					switch (d.key){
     						case 'Mon': 
@@ -193,7 +237,7 @@
 					.dimension(yearDim)
 					.elasticX(true)
 					.group(yearGroup)
-					.ordinalColors(['#e41a1c','#1f77b4','#2ca02c','#984ea3','#ff7f0e','#e377c2','#a65628', '#17becf'])
+					.ordinalColors(['#FF8066'])
 					.ordering(function(d) {						
     					switch (d.key){
     						case 2012: 
@@ -230,11 +274,10 @@
 					.dimension(hourDim)
 					.elasticX(true)
 					.elasticY(true)
-					.brushOn(true)
 					.renderHorizontalGridLines(true)
 					.x(d3.scaleLinear().domain([0, 23]))	
 					.group(hourGroup)
-					.ordinalColors(['#1f77b4']);
+					.ordinalColors(['#4E8397']);
 				
 				kdaChart
 					.width(850)					
@@ -248,18 +291,6 @@
 					.valueAccessor(function (d) {
             			return d.value.avg;
         			});
-
-
-        		percentage_searchs_number
-        			.valueAccessor(function(d){        				
-        				return d/data.length;
-        			})
-        			.formatNumber(d3.format(".2%"))
-        			.group(all);
-
-				visCount
-					.dimension(ndx)
-					.group(all);
 
 				dc.renderAll();
 			});
