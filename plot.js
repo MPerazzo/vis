@@ -319,7 +319,7 @@
 					.colsLabel(function(d) {
 					return month[d];
 					})
-					.colors(["#ffffd9", "#edf8b1", "#c7e9b4", "#7fcdbb", "#41b6c4", "#1d91c0", "#225ea8", "#253494", "#081d58"])
+					.colors(["#fedc56", "#FFBF00", "#F9A602", "#7fcdbb", "#41b6c4", "#1d91c0", "#225ea8", "#253494", "#081d58"])
 					.calculateColorDomain()
 					.rowOrdering(d3.descending)
 					.title(function(d) {
