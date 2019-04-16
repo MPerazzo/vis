@@ -31,15 +31,32 @@
 }
 
 .dc-chart .axis text {
-    font: 15px sans-serif;
+    font: 17px sans-serif;
 }
 
 #hourChart svg {
-	padding-left: 5px;
+	padding-left: 10px;
 }
 
-.dc-data-count .filter-count, .dc-data-count .total-count {
-    color: #000000;
-    font-weight: 200;
-    font-style: italic;
+#heatMapChart svg {
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+.dc-chart .heatmap g.cols.axis text {
+    position: relative;
+    top: 10px;
+}
+
+rect.heat-box:hover {
+	cursor: pointer;
+}
+
+g.box-group:hover {
+	cursor: pointer;
+}
+
+tspan {
+	fill: #fff;
+	font-size : 16px;
 }

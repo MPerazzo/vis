@@ -44,32 +44,38 @@
 
 			$('#resetYear').click(function () {
 					yearChart.filter(null);
-					dc.renderAll();
+					dc.redrawAll();
 			});	
 
 			$('#resetMonth').click(function () {
 					monthChart.filter(null);
-					dc.renderAll();
+					dc.redrawAll();
 			});	
 
 			$('#resetDay').click(function () {
 					dayChart.filter(null);
-					dc.renderAll();
+					dc.redrawAll();
 			});	
 
 			$('#resetHour').click(function () {
 					hourChart.filter(null);
-					dc.renderAll();
+					dc.redrawAll();
 			});	
 
 			$('#resetWin').click(function () {
 					winChart.filter(null);
-					dc.renderAll();
+					dc.redrawAll();
+			});
+
+
+			$('#resetHeat').click(function () {
+					heatMapChart.filter(null);
+					dc.redrawAll();
 			});
 
 			$('#resetAll').click(function () {
 					dc.filterAll(); 
-					dc.renderAll();
+					dc.redrawAll();
 			});	
 
 			var winChart = dc.pieChart('#winChart'),
@@ -78,6 +84,7 @@
 				dayChart = dc.rowChart("#dayChart"),
 				hourChart = dc.barChart("#hourChart"),
 				kdaChart = dc.lineChart("#kdaChart");
+				heatMapChart = dc.heatMap("#heatMapChart");
 
 			var month = [ "Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dic"];
 			var day = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
@@ -102,6 +109,7 @@
 				var dayDim = ndx.dimension(function(d){ return day[d.start_time.getDay()];});
 				var hourDim = ndx.dimension(function(d){ return d.start_time.getHours();});
 				var kdaDim = ndx.dimension(function(d){ return d.start_time.withoutTime();});
+				var heatDim = ndx.dimension(function(d){ return [d.start_time.getMonth(), d.start_time.getFullYear()];});
 
 				var winGroup = winDim.group();				
 				var yearGroup = yearDim.group();
@@ -134,6 +142,7 @@
 			            };
 			        }
 			    );
+			    var heatGroup = heatDim.group();
 
 				winChart 
         			.width(320)
@@ -157,7 +166,7 @@
 					.dimension(monthDim)
 					.elasticX(true)
 					.group(monthGroup)
-					.ordinalColors(['#9B89B3'])
+					.ordinalColors(['#FF8066'])
 					.ordering(function(d){
 						switch(d.key){
 							case 'Jan': 
@@ -237,7 +246,7 @@
 					.dimension(yearDim)
 					.elasticX(true)
 					.group(yearGroup)
-					.ordinalColors(['#FF8066'])
+					.ordinalColors(['#9B89B3'])
 					.ordering(function(d) {						
     					switch (d.key){
     						case 2012: 
@@ -291,6 +300,71 @@
 					.valueAccessor(function (d) {
             			return d.value.avg;
         			});
+
+        		var initheat = true;
+
+				heatMapChart
+	    			.width(600).height(400)
+					.dimension(heatDim)
+				    .group(heatGroup)
+				    .keyAccessor(function(d) {
+					    return +d.key[0];
+			  	    })
+					.valueAccessor(function(d) {
+					return +d.key[1];
+					})
+					.colorAccessor(function(d) {
+					return +parseFloat(d.value).toFixed(2);
+					})
+					.colsLabel(function(d) {
+					return month[d];
+					})
+					.colors(["#ffffd9", "#edf8b1", "#c7e9b4", "#7fcdbb", "#41b6c4", "#1d91c0", "#225ea8", "#253494", "#081d58"])
+					.calculateColorDomain()
+					.rowOrdering(d3.descending)
+					.title(function(d) {
+    					return d.value
+  					})
+					.on('preRedraw', function() {
+    					heatMapChart.calculateColorDomain();
+					})
+					.on('renderlet.label', function(chart) {
+						if (initheat) {
+							initheat = false;
+					        var text = chart.selectAll('g.box-group')
+					       	.selectAll('text.annotate').data(d => [d]);
+					        text.exit().remove();
+					        // enter attributes => anything that won't change
+					        var textEnter = text.enter()
+					        .append('text')
+					        .attr('class', 'annotate')
+					        textEnter.selectAll('tspan')
+					        .data(d => [d.value])
+					        .enter().append('tspan')
+					        .attr('text-anchor', 'middle')
+					        .attr('dy', 10);
+					        text = textEnter.merge(text);
+					        // update attributes => position and text
+					        text
+					        .attr('y', function() {
+					        var rect = d3.select(this.parentNode).select('rect');
+					        return +rect.attr('y') + rect.attr('height')/2 - 5;
+					        });
+					        text.selectAll('tspan')
+					        .attr('x', function() {
+						        var rect = d3.select(this.parentNode.parentNode).select('rect');
+						        return +rect.attr('x') + rect.attr('width')/2;
+					      	})
+					        .text(d => d);
+				    	}
+				    	else {
+				    		$('.box-group').each(function () {
+								var value = jQuery(this).children("title").text();
+  								jQuery(this).children("text").children("tspan").text(value);
+							});
+				    	}
+				  });
+
 
 				dc.renderAll();
 			});
