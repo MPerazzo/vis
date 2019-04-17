@@ -214,7 +214,7 @@
 					.dimension(dayDim)
 					.elasticX(true)
 					.group(dayGroup)
-					.ordinalColors(['#ff941c'])
+					.ordinalColors(['#bf3757'])
 					.ordering(function(d) {					
     					switch (d.key){
     						case 'Mon': 
@@ -286,7 +286,7 @@
 					.renderHorizontalGridLines(true)
 					.x(d3.scaleLinear().domain([0, 23]))	
 					.group(hourGroup)
-					.ordinalColors(['#4E8397']);
+					.ordinalColors(['#4f7962']);
 
 					hourChart.margins({ top: 0, left: 40, right: 40, bottom: 30 })
 				
